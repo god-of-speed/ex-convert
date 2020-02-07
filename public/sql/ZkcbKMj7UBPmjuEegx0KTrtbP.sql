@@ -1,0 +1,1 @@
+CREATE TABLE `mc1_main` (`undefined` varchar(255) NULL,`undefined` varchar(255) NULL,`undefined` varchar(255) NULL,`undefined` timestamp NULL);INSERT INTO `mc1_main`(`undefined`,`undefined`,`undefined`,`undefined`) VALUES

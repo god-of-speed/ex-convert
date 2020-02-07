@@ -1,0 +1,282 @@
+<div class="row" style="border:1px solid red;">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        {{#for errors}}
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12" style="border:1px solid blue;">
+        <form id="form" action="/execute" method="POST" enctype="multipart/form-data" style="border:1px solid green;">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <label>Select the type of file you want to convert</label>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <select id="from-file-type" id="from-file-type" name="fromFileType">
+                    <option value="">Select file type</option>
+                    <option value="excel">Excel</option>
+                    <option value="sql">SQL</option>
+                </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                 <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <label>What file type are you converting to?</label>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <select id="to-file-type" id="to-file-type" name="toFileType">
+                    <option value="">Select file type</option>
+                </select>
+                    </div>
+                </div>
+            </div>
+            <div id="table-name-div" style="display:none;" class="form-group">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <label>Name of sql table</label>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <input id="table-name" type="text" name="tableName"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Select file</label>
+                <input id="file" type="file" name="file"/>
+            </div>
+            <div class="form-group" id="excel-field-selection-div" style="display:none;">
+                <div class="row" id="excel-fields-div">
+                    <div class="col-lg-12 col-md-12 col-sm-12" id="excel-column1">
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label>Field name</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <input type="text" class="excel-field-name" name="fieldName"/>
+                                </div>
+                            </div>
+                        </div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label>Field type</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <select type="text" class="excel-field-type" name="selectField">
+                            <option value="">Select field type</option>
+                            <option value="string">String</option>
+                            <option value="text">Text</option>
+                            <option value="integer">Integer</option>
+                            <option value="decimal">Decimal</option>
+                            <option value="datetime">DateTime</option>
+                            <option value="timestamp">Timestamp</option>
+                        </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label></label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <button type="button" ele="excel-column1" class="btn btn-danger remove-me">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        <div class="form-group" id="sql-field-selection-div" style="display:none;">
+                <div class="row" id="sql-fields-div">
+                    <div class="col-lg-12 col-md-12 col-sm-12" id="sql-column1">
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label>Field name</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <input type="text" class="sql-field-name" name="fieldName"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label></label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <button type="button" ele="sql-column1" class="btn btn-danger remove-me">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <button id="add-excel-field" style="display: none;" class="btn btn-primary">Add</button>
+                    <button id="add-sql-field" style="display: none;" class="btn btn-primary">Add</button>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <button type="submit" id="submit" class="btn btn-success">Convert</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#from-file-type').on('change',function(e){
+                var val = $(this).val();
+                if(val == 'excel') {
+                    $('#sql-field-selection-div').css({display:"none"});
+                    $('#add-sql-field').css({display:"none"});
+                    $('#to-file-type').empty();
+                    $('#to-file-type').append('<option value="">Select type</option><option value="sql">SQL</option>');
+                    $('#table-name-div').css({display:"block"});
+                    $('#excel-field-selection-div').css({display:"block"});
+                    $('#add-excel-field').css({display:"block"});
+                }
+                else if(val == 'sql') {
+                    $('#table-name-div').css({display:"none"});
+                    $('#excel-field-selection-div').css({display:"none"});
+                    $('#add-excel-field').css({display:"none"});
+                    $('#to-file-type').empty();
+                    $('#to-file-type').append('<option value="">Select type </option><option value="excel">Excel</option>');
+                    $('#sql-field-selection-div').css({display:"block"});
+                    $('#add-sql-field').css({display:"block"});
+                }
+            });
+            $('#add-excel-field').on('click', function(e){
+                e.preventDefault();
+                var lastDivId = $('#excel-fields-div').children().last().attr('id');
+                var id = parseInt(lastDivId.slice(-1)) + 1;
+                //create html
+                var html = '<div class="col-lg-12 col-md-12 col-sm-12" id="excel-column'+id+'">';
+                    html += '<div class="row">';
+                    html += '<div class="col-lg-5 col-md-5 col-sm-5">';
+                    html += '<div class="row">';
+                    html += '<div class="col-lg-12 col-md-12 col-sm-12">';
+                    html += '<label>Field name</label>';
+                    html += '</div>';
+                    html += '<div class="col-lg-12 col-md-12 col-sm-12">';
+                    html += '<input type="text" class="excel-field-name" name="fieldName"/>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '<div class="col-lg-5 col-md-5 col-sm-5">';
+                    html += '<div class="row">';
+                    html += '<div class="col-lg-12 col-md-12 col-sm-12">';
+                    html += '<label>Field type</label>';
+                    html += '</div>';
+                    html += '<div class="col-lg-12 col-md-12 col-sm-12">';
+                    html += '<select class="excel-field-type" type="text" name="selectField">';
+                    html += '<option value="">Select field type</option>';
+                    html += '<option value="string">String</option>';
+                    html += '<option value="text">Text</option>';
+                    html += '<option value="integer">Integer</option>';
+                    html += '<option value="decimal">Decimal</option>';
+                    html += '<option value="datetime">DateTime</option>';
+                    html += '<option value="timestamp">Timestamp</option>';
+                    html += '</select>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '<div class="col-lg-2 col-md-2 col-sm-2">';
+                    html += '<div class="row">';
+                    html += '<div class="col-lg-12 col-md-12 col-sm-12">';
+                    html += '<label></label>';
+                    html += '</div>';
+                    html += '<div class="col-lg-12 col-md-12 col-sm-12">';
+                    html += '<button type="button" ele="excel-column'+id+'" class="btn btn-danger remove-me">Remove</button>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                $('#excel-fields-div').append(html);
+            }); 
+            $('#add-sql-field').on('click', function(e){
+                e.preventDefault();
+                var lastDivId = $('#sql-fields-div').children().last().attr('id');
+                var id = parseInt(lastDivId.slice(-1)) + 1;
+                //create html
+                var html = '<div class="col-lg-12 col-md-12 col-sm-12" id="sql-column'+id+'">';
+                    html += '<div class="row">';
+                    html += '<div class="col-lg-5 col-md-5 col-sm-5">';
+                    html += '<div class="row">';
+                    html += '<div class="col-lg-12 col-md-12 col-sm-12">';
+                    html += '<label>Field name</label>';
+                    html += '</div>';
+                    html += '<div class="col-lg-12 col-md-12 col-sm-12">';
+                    html += '<input type="text" class="sql-field-name" name="fieldName"/>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '<div class="col-lg-2 col-md-2 col-sm-2">';
+                    html += '<div class="row">';
+                    html += '<div class="col-lg-12 col-md-12 col-sm-12">';
+                    html += '<label></label>';
+                    html += '</div>';
+                    html += '<div class="col-lg-12 col-md-12 col-sm-12">';
+                    html += '<button type="button" ele="sql-column'+id+'" class="btn btn-danger remove-me">Remove</button>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                $('#sql-fields-div').append(html);
+            }); 
+            $('#form').on('click', '.remove-me' ,function(e){
+                e.preventDefault();
+                var div = $(this).attr('ele');
+                $('#'+div).remove();
+            });
+            $('#submit').on('click', function(e){
+                e.preventDefault();
+                var form = new FormData();
+                form.append('fromFileType',$('#from-file-type').val());
+                form.append('toFileType',$('#to-file-type').val());
+                form.append('file',$('#file')[0].files[0]);
+                if($('#from-file-type').val() == 'excel') {
+                    form.append('tableName',$('#table-name').val())
+                    //childrens lots of laughter
+                    var childrens = $('#excel-fields-div').children();
+                    var arr = [];
+                    for(var i=0; i<childrens.length; i++) {
+                        arr.push({
+                            fieldname:$('#'+$(childrens[i]).attr('id')+' .excel-field-name').val(),
+                            fieldType:$('#'+$(childrens[i]).attr('id')+' .excel-field-type').val()
+                        });        
+                    }
+                    form.append('fields',arr);
+                }
+                if($('#from-file-type').val() == 'sql') {
+                    //childrens lots of laughter
+                    var childrens = $('#sql-fields-div').children();
+                    var arr = [];
+                    for(var i=0; i<childrens.length; i++) {
+                        arr.push($('#'+$(childrens[i]).attr('id')+' .sql-field-name').val());        
+                    }
+                    form.append('fields',arr);
+                }
+                $.ajax({
+                    url:'/execute',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    data: form,
+                    success: function(data) {}
+                });
+            });
+        });
+    </script>
+</div>
